@@ -42,17 +42,17 @@ class BaseIndex(Generic[IS], ABC):
     index_struct_cls: Type[IS]
 
     def __init__(
-        self,
-        nodes: Optional[Sequence[BaseNode]] = None,
-        objects: Optional[Sequence[IndexNode]] = None,
-        index_struct: Optional[IS] = None,
-        storage_context: Optional[StorageContext] = None,
-        callback_manager: Optional[CallbackManager] = None,
-        transformations: Optional[List[TransformComponent]] = None,
-        show_progress: bool = False,
-        # deprecated
-        service_context: Optional[ServiceContext] = None,
-        **kwargs: Any,
+            self,
+            nodes: Optional[Sequence[BaseNode]] = None,
+            objects: Optional[Sequence[IndexNode]] = None,
+            index_struct: Optional[IS] = None,
+            storage_context: Optional[StorageContext] = None,
+            callback_manager: Optional[CallbackManager] = None,
+            transformations: Optional[List[TransformComponent]] = None,
+            show_progress: bool = False,
+            # deprecated
+            service_context: Optional[ServiceContext] = None,
+            **kwargs: Any,
     ) -> None:
         """Initialize with parameters."""
         if index_struct is None and nodes is None and objects is None:
@@ -79,8 +79,8 @@ class BaseIndex(Generic[IS], ABC):
         self._vector_store = self._storage_context.vector_store
         self._graph_store = self._storage_context.graph_store
         self._callback_manager = (
-            callback_manager
-            or callback_manager_from_settings_or_context(Settings, service_context)
+                callback_manager
+                or callback_manager_from_settings_or_context(Settings, service_context)
         )
 
         objects = objects or []
@@ -98,21 +98,21 @@ class BaseIndex(Generic[IS], ABC):
             self._storage_context.index_store.add_index_struct(self._index_struct)
 
         self._transformations = (
-            transformations
-            or transformations_from_settings_or_context(Settings, service_context)
+                transformations
+                or transformations_from_settings_or_context(Settings, service_context)
         )
 
     @classmethod
     def from_documents(
-        cls: Type[IndexType],
-        documents: Sequence[Document],
-        storage_context: Optional[StorageContext] = None,
-        show_progress: bool = False,
-        callback_manager: Optional[CallbackManager] = None,
-        transformations: Optional[List[TransformComponent]] = None,
-        # deprecated
-        service_context: Optional[ServiceContext] = None,
-        **kwargs: Any,
+            cls: Type[IndexType],
+            documents: Sequence[Document],
+            storage_context: Optional[StorageContext] = None,
+            show_progress: bool = False,
+            callback_manager: Optional[CallbackManager] = None,
+            transformations: Optional[List[TransformComponent]] = None,
+            # deprecated
+            service_context: Optional[ServiceContext] = None,
+            **kwargs: Any,
     ) -> IndexType:
         """Create index from documents.
 
@@ -124,8 +124,8 @@ class BaseIndex(Generic[IS], ABC):
         storage_context = storage_context or StorageContext.from_defaults()
         docstore = storage_context.docstore
         callback_manager = (
-            callback_manager
-            or callback_manager_from_settings_or_context(Settings, service_context)
+                callback_manager
+                or callback_manager_from_settings_or_context(Settings, service_context)
         )
         transformations = transformations or transformations_from_settings_or_context(
             Settings, service_context
@@ -204,12 +204,12 @@ class BaseIndex(Generic[IS], ABC):
 
     @abstractmethod
     def _build_index_from_nodes(
-        self, nodes: Sequence[BaseNode], **build_kwargs: Any
+            self, nodes: Sequence[BaseNode], **build_kwargs: Any
     ) -> IS:
         """Build the index from nodes."""
 
     def build_index_from_nodes(
-        self, nodes: Sequence[BaseNode], **build_kwargs: Any
+            self, nodes: Sequence[BaseNode], **build_kwargs: Any
     ) -> IS:
         """Build the index from nodes."""
         self._docstore.add_documents(nodes, allow_update=True)
@@ -251,10 +251,10 @@ class BaseIndex(Generic[IS], ABC):
         """Delete a node."""
 
     def delete_nodes(
-        self,
-        node_ids: List[str],
-        delete_from_docstore: bool = False,
-        **delete_kwargs: Any,
+            self,
+            node_ids: List[str],
+            delete_from_docstore: bool = False,
+            **delete_kwargs: Any,
     ) -> None:
         """Delete a list of nodes from the index.
 
@@ -284,7 +284,7 @@ class BaseIndex(Generic[IS], ABC):
         self.delete_ref_doc(doc_id)
 
     def delete_ref_doc(
-        self, ref_doc_id: str, delete_from_docstore: bool = False, **delete_kwargs: Any
+            self, ref_doc_id: str, delete_from_docstore: bool = False, **delete_kwargs: Any
     ) -> None:
         """Delete a document and it's nodes by using ref_doc_id."""
         ref_doc_info = self.docstore.get_ref_doc_info(ref_doc_id)
@@ -338,7 +338,7 @@ class BaseIndex(Generic[IS], ABC):
             self.insert(document, **update_kwargs.pop("insert_kwargs", {}))
 
     def refresh(
-        self, documents: Sequence[Document], **update_kwargs: Any
+            self, documents: Sequence[Document], **update_kwargs: Any
     ) -> List[bool]:
         """Refresh an index with documents that have changed.
 
@@ -353,7 +353,7 @@ class BaseIndex(Generic[IS], ABC):
         return self.refresh_ref_docs(documents, **update_kwargs)
 
     def refresh_ref_docs(
-        self, documents: Sequence[Document], **update_kwargs: Any
+            self, documents: Sequence[Document], **update_kwargs: Any
     ) -> List[bool]:
         """Refresh an index with documents that have changed.
 
@@ -389,7 +389,7 @@ class BaseIndex(Generic[IS], ABC):
         ...
 
     def as_query_engine(
-        self, llm: Optional[LLMType] = None, **kwargs: Any
+            self, llm: Optional[LLMType] = None, **kwargs: Any
     ) -> BaseQueryEngine:
         """Convert the index to a query engine.
 
@@ -415,10 +415,10 @@ class BaseIndex(Generic[IS], ABC):
         )
 
     def as_chat_engine(
-        self,
-        chat_mode: ChatMode = ChatMode.BEST,
-        llm: Optional[LLMType] = None,
-        **kwargs: Any,
+            self,
+            chat_mode: ChatMode = ChatMode.BEST,
+            llm: Optional[LLMType] = None,
+            **kwargs: Any,
     ) -> BaseChatEngine:
         """Convert the index to a chat engine.
 

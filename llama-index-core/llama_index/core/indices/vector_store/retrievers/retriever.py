@@ -74,6 +74,7 @@ class VectorIndexRetriever(BaseRetriever):
             callback_manager=callback_manager,
             object_map=object_map,
             verbose=verbose,
+            **kwargs
         )
 
     @property

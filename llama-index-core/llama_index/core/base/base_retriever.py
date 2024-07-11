@@ -1,7 +1,7 @@
 """Base retriever."""
 
 from abc import abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Callable
 
 from llama_index.core.base.base_query_engine import BaseQueryEngine
 from llama_index.core.base.query_pipeline.query import (
@@ -48,6 +48,7 @@ class BaseRetriever(ChainableMixin, PromptMixin, DispatcherSpanMixin):
         callback_manager: Optional[CallbackManager] = None,
         object_map: Optional[Dict] = None,
         objects: Optional[List[IndexNode]] = None,
+        object_mapper: Optional[Callable[[str, Any], Any]] = None,
         verbose: bool = False,
     ) -> None:
         self.callback_manager = callback_manager or CallbackManager()
@@ -55,7 +56,12 @@ class BaseRetriever(ChainableMixin, PromptMixin, DispatcherSpanMixin):
         if objects is not None:
             object_map = {obj.index_id: obj.obj for obj in objects}
 
-        self.object_map = object_map or {}
+        _object_map = object_map
+        if object_mapper:
+            for name, value in object_map.items():
+                _object_map[name] = object_mapper(name, value)
+
+        self.object_map = _object_map or {}
         self._verbose = verbose
 
     def _check_callback_manager(self) -> None:
@@ -99,7 +105,12 @@ class BaseRetriever(ChainableMixin, PromptMixin, DispatcherSpanMixin):
                 )
             ]
         elif isinstance(obj, BaseRetriever):
-            return obj.retrieve(query_bundle)
+            nodes = obj.retrieve(query_bundle)
+            has_score = any([n.score for n in nodes])
+            if not has_score:
+                for n in nodes:
+                    n.score = score
+            return nodes
         elif isinstance(obj, QueryComponent):
             component_keys = obj.input_keys.required_keys
             if len(component_keys) > 1:

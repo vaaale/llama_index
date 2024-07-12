@@ -13,9 +13,9 @@ logger = logging.getLogger(__name__)
 
 
 def load_index_from_storage(
-        storage_context: StorageContext,
-        index_id: Optional[str] = None,
-        **kwargs: Any,
+    storage_context: StorageContext,
+    index_id: Optional[str] = None,
+    **kwargs: Any,
 ) -> BaseIndex:
     """Load index from storage context.
 
@@ -93,9 +93,9 @@ def reconstruct_object_map(index_struct: IS, storage_context: StorageContext, **
 
 
 def load_indices_from_storage(
-        storage_context: StorageContext,
-        index_ids: Optional[Sequence[str]] = None,
-        **kwargs: Any,
+    storage_context: StorageContext,
+    index_ids: Optional[Sequence[str]] = None,
+    **kwargs: Any,
 ) -> List[BaseIndex]:
     """Load multiple indices from storage context.
 
@@ -126,9 +126,9 @@ def load_indices_from_storage(
 
 
 def load_graph_from_storage(
-        storage_context: StorageContext,
-        root_id: str,
-        **kwargs: Any,
+    storage_context: StorageContext,
+    root_id: str,
+    **kwargs: Any,
 ) -> ComposableGraph:
     """Load composable graph from storage context.
 

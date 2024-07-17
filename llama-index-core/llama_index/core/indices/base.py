@@ -11,6 +11,7 @@ from llama_index.core.chat_engine.types import BaseChatEngine, ChatMode
 from llama_index.core.data_structs.data_structs import IndexStruct
 from llama_index.core.ingestion import run_transformations
 from llama_index.core.llms.utils import LLMType, resolve_llm
+from llama_index.core.response_synthesizers import BaseSynthesizer
 from llama_index.core.schema import BaseNode, Document, IndexNode, TransformComponent
 from llama_index.core.service_context import ServiceContext
 from llama_index.core.settings import (
@@ -389,7 +390,10 @@ class BaseIndex(Generic[IS], ABC):
         ...
 
     def as_query_engine(
-        self, llm: Optional[LLMType] = None, **kwargs: Any
+        self,
+        llm: Optional[LLMType] = None,
+        response_synthesizer: Optional[BaseSynthesizer] = None,
+        **kwargs: Any
     ) -> BaseQueryEngine:
         """Convert the index to a query engine.
 
@@ -411,7 +415,7 @@ class BaseIndex(Generic[IS], ABC):
         return RetrieverQueryEngine.from_args(
             retriever,
             llm=llm,
-            **kwargs,
+            **{"response_synthesizer": response_synthesizer, **kwargs},
         )
 
     def as_chat_engine(

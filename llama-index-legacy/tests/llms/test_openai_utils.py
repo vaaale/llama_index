@@ -191,7 +191,7 @@ def test_to_openai_tool_with_provided_description() -> None:
         "function": {
             "name": "TestOutput",
             "description": "Provided description",
-            "parameters": TestOutput.schema(),
+            "parameters": TestOutput.schema(ref_template='#/$defs/{model}'),
         },
     }
 
@@ -211,6 +211,6 @@ def test_to_openai_message_with_pydantic_description() -> None:
         "function": {
             "name": "TestOutput",
             "description": "Pydantic description.",
-            "parameters": TestOutput.schema(),
+            "parameters": TestOutput.schema(ref_template='#/$defs/{model}'),
         },
     }

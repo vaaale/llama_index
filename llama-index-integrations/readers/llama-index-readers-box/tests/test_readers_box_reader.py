@@ -17,7 +17,7 @@ def test_class():
 def test_reader_init(box_client_ccg_unit_testing: BoxClient):
     reader = BoxReader(box_client=box_client_ccg_unit_testing)
 
-    # schema = reader.schema()
+    # schema = reader.schema(ref_template='#/$defs/{model}')
     # assert schema is not None
     # assert len(schema) > 0
     # assert "box_client_id" in schema["properties"]

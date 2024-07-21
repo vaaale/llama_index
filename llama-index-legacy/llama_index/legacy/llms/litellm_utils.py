@@ -191,11 +191,11 @@ def from_openai_message_dicts(message_dicts: Sequence[dict]) -> List[ChatMessage
 
 def to_openai_function(pydantic_class: Type[BaseModel]) -> Dict[str, Any]:
     """Convert pydantic class to OpenAI function."""
-    schema = pydantic_class.schema()
+    schema = pydantic_class.schema(ref_template='#/$defs/{model}')
     return {
         "name": schema["title"],
         "description": schema["description"],
-        "parameters": pydantic_class.schema(),
+        "parameters": pydantic_class.schema(ref_template='#/$defs/{model}'),
     }
 
 

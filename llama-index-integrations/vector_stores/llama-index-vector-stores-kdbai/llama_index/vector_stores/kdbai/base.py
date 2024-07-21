@@ -130,7 +130,7 @@ class KDBAIVectorStore(BasePydanticVectorStore):
         docs = []
 
         if isinstance(self._table, kdbai.Table):
-            schema = self._table.schema()["columns"]
+            schema = self._table.schema(ref_template='#/$defs/{model}')["columns"]
         elif isinstance(self._table, kdbai.TablePyKx):
             schema = self._table.schema["schema"]["c"]
             types = self._table.schema["schema"]["t"].decode("utf-8")

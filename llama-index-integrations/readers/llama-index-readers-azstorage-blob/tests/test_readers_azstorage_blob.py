@@ -14,7 +14,7 @@ def test_serialize():
         container_name=test_container_name,
     )
 
-    schema = reader.schema()
+    schema = reader.schema(ref_template='#/$defs/{model}')
     assert schema is not None
     assert len(schema) > 0
     assert "container_name" in schema["properties"]

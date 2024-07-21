@@ -27,7 +27,7 @@ class TestGoogleDriveReader(unittest.TestCase):
             authorized_user_info=test_authorized_user_info,
         )
 
-        schema = reader.schema()
+        schema = reader.schema(ref_template='#/$defs/{model}')
         assert schema is not None
         assert len(schema) > 0
         assert "client_config" in schema["properties"]
@@ -48,7 +48,7 @@ class TestGoogleDriveReader(unittest.TestCase):
                 service_account_key_path=file_name,
             )
 
-        schema = reader.schema()
+        schema = reader.schema(ref_template='#/$defs/{model}')
         assert schema is not None
         assert len(schema) > 0
         assert "service_account_key" in schema["properties"]

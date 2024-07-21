@@ -49,7 +49,7 @@ def to_lc_messages(messages: Sequence[ChatMessage]) -> List[LC.BaseMessage]:
         else:
             raise ValueError(f"Invalid role: {message.role}")
 
-        for req_key in LC_MessageClass.schema().get("required"):
+        for req_key in LC_MessageClass.schema(ref_template='#/$defs/{model}').get("required"):
             if req_key not in lc_kw:
                 more_kw = lc_kw.get("additional_kwargs")
                 if not isinstance(more_kw, dict):

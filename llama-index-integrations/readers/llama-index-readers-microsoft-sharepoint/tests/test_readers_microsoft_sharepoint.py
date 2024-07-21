@@ -26,7 +26,7 @@ def test_serialize():
         tenant_id=test_tenant_id,
     )
 
-    schema = reader.schema()
+    schema = reader.schema(ref_template='#/$defs/{model}')
     assert schema is not None
     assert len(schema) > 0
     assert "client_id" in schema["properties"]

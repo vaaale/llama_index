@@ -165,7 +165,7 @@ def test_serialize():
         s3_endpoint_url=endpoint_url,
     )
 
-    schema = reader.schema()
+    schema = reader.schema(ref_template='#/$defs/{model}')
     assert schema is not None
     assert len(schema) > 0
     assert "bucket" in schema["properties"]

@@ -32,7 +32,7 @@ class ToolMetadata:
                 "required": ["input"],
             }
         else:
-            parameters = self.fn_schema.schema()
+            parameters = self.fn_schema.schema(ref_template='#/$defs/{model}')
             parameters = {
                 k: v
                 for k, v in parameters.items()

@@ -16,7 +16,7 @@ def test_serialize():
         service_account_key=test_service_account_key,
     )
 
-    schema = reader.schema()
+    schema = reader.schema(ref_template='#/$defs/{model}')
     assert schema is not None
     assert len(schema) > 0
     assert "bucket" in schema["properties"]

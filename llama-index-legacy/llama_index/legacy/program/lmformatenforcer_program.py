@@ -52,7 +52,7 @@ class LMFormatEnforcerPydanticProgram(BaseLLMFunctionProgram):
         self._prompt_template_str = prompt_template_str
         self._output_cls = output_cls
         self._verbose = verbose
-        json_schema_parser = lmformatenforcer.JsonSchemaParser(self.output_cls.schema())
+        json_schema_parser = lmformatenforcer.JsonSchemaParser(self.output_cls.schema(ref_template='#/$defs/{model}'))
         self._token_enforcer_fn = build_lm_format_enforcer_function(
             self.llm, json_schema_parser
         )
@@ -94,7 +94,7 @@ class LMFormatEnforcerPydanticProgram(BaseLLMFunctionProgram):
         llm_kwargs = llm_kwargs or {}
         # While the format enforcer is active, any calls to the llm will have the format enforced.
         with activate_lm_format_enforcer(self.llm, self._token_enforcer_fn):
-            json_schema_str = json.dumps(self.output_cls.schema())
+            json_schema_str = json.dumps(self.output_cls.schema(ref_template='#/$defs/{model}'))
             full_str = self._prompt_template_str.format(
                 *args, **kwargs, json_schema=json_schema_str
             )

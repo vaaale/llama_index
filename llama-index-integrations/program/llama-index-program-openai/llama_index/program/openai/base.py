@@ -24,7 +24,7 @@ def _default_tool_choice(
     if allow_multiple:
         return "auto"
     else:
-        schema = output_cls.schema()
+        schema = output_cls.schema(ref_template='#/$defs/{model}')
         return resolve_tool_choice(schema["title"])
 
 

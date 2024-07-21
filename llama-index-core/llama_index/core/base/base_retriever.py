@@ -48,8 +48,8 @@ class BaseRetriever(ChainableMixin, PromptMixin, DispatcherSpanMixin):
         callback_manager: Optional[CallbackManager] = None,
         object_map: Optional[Dict] = None,
         objects: Optional[List[IndexNode]] = None,
-        object_mapper: Optional[Callable[[str, Any], Any]] = None,
         verbose: bool = False,
+        **kwargs,
     ) -> None:
         self.callback_manager = callback_manager or CallbackManager()
 
@@ -57,6 +57,7 @@ class BaseRetriever(ChainableMixin, PromptMixin, DispatcherSpanMixin):
             object_map = {obj.index_id: obj.obj for obj in objects}
 
         _object_map = object_map
+        object_mapper: Optional[Callable[[str, Any], Any]] = kwargs.pop("object_mapper", None)
         if object_mapper:
             for name, value in object_map.items():
                 _object_map[name] = object_mapper(name, value)
